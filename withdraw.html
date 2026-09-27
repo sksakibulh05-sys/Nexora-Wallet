@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Money - NEXORA PAY BD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #fffbeb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto bg-amber-50 min-h-screen pb-24 relative shadow-2xl">
+
+    <!-- Header -->
+    <div class="bg-yellow-400 px-4 py-4 rounded-b-3xl shadow-md flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="text-gray-800 text-xl font-bold">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h2 class="text-base font-bold text-gray-800">Withdraw Money</h2>
+        </div>
+        <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-red-600 shadow">
+            <i class="fa-solid fa-wallet"></i>
+        </div>
+    </div>
+
+    <!-- Withdraw Form Area -->
+    <div class="px-4 mt-6 space-y-4">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-yellow-100 space-y-4">
+            <div class="text-center pb-2 border-b border-gray-100">
+                <p class="text-xs text-gray-500">বর্তমান ব্যালেন্স</p>
+                <h2 class="text-2xl font-extrabold text-red-600">৳ 610.00</h2>
+            </div>
+
+            <!-- Select Method -->
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">পেমেন্ট মেথড সিলেক্ট করুন</label>
+                <select class="w-full p-3 bg-amber-50 border border-yellow-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <option>বিকাশ (Bkash)</option>
+                    <option>নগদ (Nagad)</option>
+                    <option>রকেট (Rocket)</option>
+                </select>
+            </div>
+
+            <!-- Account Number -->
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">একাউন্ট নাম্বার</label>
+                <input type="text" placeholder="আপনার নাম্বার দিন" class="w-full p-3 bg-amber-50 border border-yellow-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+            </div>
+
+            <!-- Amount -->
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">টাকার পরিমাণ</label>
+                <input type="number" placeholder="সর্বনিম্ন ৫০০ টাকা" class="w-full p-3 bg-amber-50 border border-yellow-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
+            </div>
+
+            <!-- Submit Button -->
+            <button class="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-red-700 transition">
+                উইথড্র রিকোয়েস্ট পাঠান
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>

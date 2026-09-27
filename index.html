@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA PAY BD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #fffbeb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto bg-amber-50 min-h-screen pb-24 relative shadow-2xl">
+
+    <!-- Top Header -->
+    <div class="bg-yellow-400 px-4 pt-4 pb-6 rounded-b-3xl shadow-md">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center space-x-3">
+                <button class="text-gray-800 text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div>
+                    <h2 class="text-sm font-semibold text-gray-800">Hi, SK sakibul hasan</h2>
+                    <p class="text-xs text-gray-700">Welcome to NEXORA PAY BD!</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <!-- Notification Bell -->
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-inner cursor-pointer text-red-500">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                </div>
+                <!-- Profile Avatar -->
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center overflow-hidden border-2 border-white shadow">
+                    <i class="fa-solid fa-user text-blue-600 text-lg"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Balance Card -->
+        <div class="bg-red-600 text-white rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
+            <p class="text-xs uppercase tracking-wider mb-1 font-medium opacity-90">Total Balance (Taka)</p>
+            <h1 class="text-4xl font-extrabold tracking-tight">৳ 610.00</h1>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="px-4 mt-4 space-y-4">
+
+        <!-- Withdraw Money Button -->
+        <div class="bg-white rounded-2xl p-4 flex items-center justify-between shadow-sm border border-yellow-100 cursor-pointer hover:bg-yellow-50 transition">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span class="font-bold text-gray-800 text-base">Withdraw Money</span>
+            </div>
+            <i class="fa-solid fa-arrow-right text-gray-600 font-bold"></i>
+        </div>
+
+        <!-- App Install Banner -->
+        <div class="bg-gradient-to-r from-red-600 to-red-500 text-white rounded-2xl p-4 flex items-center justify-between shadow-md">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl backdrop-blur-sm">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm">NEXORA অ্যাপ ইনস্টল করুন</h3>
+                    <p class="text-xs text-red-100 mt-0.5">সহজে এবং দ্রুত কাজ করার জন্য</p>
+                </div>
+            </div>
+            <div class="w-10 h-10 bg-white text-red-600 rounded-full flex items-center justify-center shadow cursor-pointer font-bold">
+                <i class="fa-solid fa-download"></i>
+            </div>
+        </div>
+
+        <!-- Stats Grid (Refer & Total Income) -->
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Refer Box -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-yellow-100 text-center">
+                <div class="text-red-500 mb-1 text-xl">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <p class="text-xs text-gray-500 font-medium mb-1">রেফার</p>
+                <h3 class="text-2xl font-bold text-gray-800">4</h3>
+            </div>
+            <!-- Total Income Box -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-yellow-100 text-center">
+                <div class="text-green-600 mb-1 text-xl font-bold">৳</div>
+                <p class="text-xs text-gray-500 font-medium mb-1">মোট আয় (টাকা)</p>
+                <h3 class="text-2xl font-bold text-gray-800">490.00</h3>
+            </div>
+        </div>
+
+        <!-- Income History Banner -->
+        <div class="bg-gradient-to-r from-amber-600 to-red-600 text-white rounded-2xl p-4 flex items-center justify-between shadow-md cursor-pointer">
+            <div class="flex items-center space-x-3">
+                <div class="
