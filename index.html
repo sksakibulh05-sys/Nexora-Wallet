@@ -13,13 +13,13 @@
         }
     </style>
 </head>
-<body class="max-w-md mx-auto bg-amber-50 min-h-screen pb-24 relative shadow-2xl">
+<body class="max-w-md mx-auto bg-amber-50 min-h-screen pb-20">
 
     <!-- Top Header -->
     <div class="bg-yellow-400 px-4 pt-4 pb-6 rounded-b-3xl shadow-md">
         <div class="flex justify-between items-center mb-4">
             <div class="flex items-center space-x-3">
-                <button class="text-gray-800 text-2xl focus:outline-none">
+                <button class="text-gray-800 text-2xl">
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div>
@@ -29,72 +29,125 @@
             </div>
             <div class="flex items-center space-x-2">
                 <!-- Notification Bell -->
-                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-inner cursor-pointer text-red-500">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-gray-700">
                     <i class="fa-regular fa-bell text-lg"></i>
                 </div>
                 <!-- Profile Avatar -->
-                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center overflow-hidden border-2 border-white shadow">
-                    <i class="fa-solid fa-user text-blue-600 text-lg"></i>
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold shadow-sm">
+                    <i class="fa-solid fa-user text-blue-600"></i>
                 </div>
             </div>
         </div>
 
         <!-- Total Balance Card -->
-        <div class="bg-red-600 text-white rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
-            <p class="text-xs uppercase tracking-wider mb-1 font-medium opacity-90">Total Balance (Taka)</p>
-            <h1 class="text-4xl font-extrabold tracking-tight">৳ 610.00</h1>
+        <div class="bg-red-600 text-white rounded-2xl p-5 shadow-lg text-center relative overflow-hidden">
+            <p class="text-xs uppercase tracking-wider opacity-90 mb-1">TOTAL BALANCE (TAKA)</p>
+            <h1 class="text-4xl font-extrabold tracking-tight">৳ 120.00</h1>
+            <p class="text-xs text-red-100 mt-2 font-medium">রেজিস্ট্রেশন বোনাস ১২০ টাকা যুক্ত হয়েছে</p>
         </div>
     </div>
 
     <!-- Main Content Area -->
     <div class="px-4 mt-4 space-y-4">
-
-        <!-- Withdraw Money Button -->
-        <div class="bg-white rounded-2xl p-4 flex items-center justify-between shadow-sm border border-yellow-100 cursor-pointer hover:bg-yellow-50 transition">
+        
+        <!-- আজকের কাজ শুরু করুন Banner -->
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-500 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <span class="font-bold text-gray-800 text-base">Withdraw Money</span>
-            </div>
-            <i class="fa-solid fa-arrow-right text-gray-600 font-bold"></i>
-        </div>
-
-        <!-- App Install Banner -->
-        <div class="bg-gradient-to-r from-red-600 to-red-500 text-white rounded-2xl p-4 flex items-center justify-between shadow-md">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl backdrop-blur-sm">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-xl">
+                    <i class="fa-solid fa-play-circle"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-sm">NEXORA অ্যাপ ইনস্টল করুন</h3>
+                    <h3 class="font-bold text-sm">আজকের কাজ শুরু করুন</h3>
+                    <p class="text-xs text-emerald-100 mt-0.5">প্রতিটি অ্যাড দেখলে ৫ টাকা পাবেন!</p>
+                </div>
+            </div>
+            <a href="tasks.html" class="bg-white text-emerald-600 px-3 py-1.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-50">শুরু করুন</a>
+        </div>
+
+        <!-- Withdraw Money Button -->
+        <a href="withdraw.html" style="text-decoration: none; display: block;">
+            <div class="bg-white rounded-2xl p-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center text-red-600">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <span class="font-bold text-gray-800">Withdraw Money</span>
+                </div>
+                <i class="fa-solid fa-arrow-right text-gray-400"></i>
+            </div>
+        </a>
+
+        <!-- App Install Banner -->
+        <div class="bg-gradient-to-r from-red-600 to-red-500 rounded-2xl p-4 text-white flex items-center justify-between shadow-md">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-xl">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm">অ্যাপ ডাউনলোড করুন</h3>
                     <p class="text-xs text-red-100 mt-0.5">সহজে এবং দ্রুত কাজ করার জন্য</p>
                 </div>
             </div>
-            <div class="w-10 h-10 bg-white text-red-600 rounded-full flex items-center justify-center shadow cursor-pointer font-bold">
+            <div class="w-10 h-10 bg-white text-red-600 rounded-full flex items-center justify-center shadow">
                 <i class="fa-solid fa-download"></i>
             </div>
         </div>
 
-        <!-- Stats Grid (Refer & Total Income) -->
+        <!-- Stats Grid (Refer & Referral Bonus Info) -->
         <div class="grid grid-cols-2 gap-4">
             <!-- Refer Box -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-yellow-100 text-center">
+            <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
                 <div class="text-red-500 mb-1 text-xl">
                     <i class="fa-solid fa-users"></i>
                 </div>
-                <p class="text-xs text-gray-500 font-medium mb-1">রেফার</p>
-                <h3 class="text-2xl font-bold text-gray-800">4</h3>
+                <p class="text-xs text-gray-500 font-medium">রেফার</p>
+                <h3 class="text-2xl font-bold text-gray-800">0</h3>
             </div>
-            <!-- Total Income Box -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-yellow-100 text-center">
-                <div class="text-green-600 mb-1 text-xl font-bold">৳</div>
-                <p class="text-xs text-gray-500 font-medium mb-1">মোট আয় (টাকা)</p>
-                <h3 class="text-2xl font-bold text-gray-800">490.00</h3>
+            <!-- Referral Earning Info Box -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
+                <div class="text-yellow-500 mb-1 text-xl">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <p class="text-xs text-gray-500 font-medium">রেফার বোনাস</p>
+                <h3 class="text-lg font-bold text-gray-800">প্রতি রেফার ৭০ টাকা</h3>
             </div>
         </div>
 
-        <!-- Income History Banner -->
-        <div class="bg-gradient-to-r from-amber-600 to-red-600 text-white rounded-2xl p-4 flex items-center justify-between shadow-md cursor-pointer">
+        <!-- Copy Link Section -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="
+                <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
+                    <i class="fa-solid fa-link"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm text-gray-800">আপনার রেফারেল লিংক</h4>
+                    <p class="text-xs text-gray-500">বন্ধুদের সাথে শেয়ার করে ৭০ টাকা আয় করুন</p>
+                </div>
+            </div>
+            <button class="bg-yellow-400 text-gray-900 px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm">কপি লিংক</button>
+        </div>
+
+    </div>
+
+    <!-- Bottom Navigation Bar (Wallet, Tasks, Withdraw etc.) -->
+    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 py-2 px-6 flex justify-between items-center shadow-lg">
+        <a href="index.html" class="flex flex-col items-center text-red-600">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-medium mt-0.5">হোম</span>
+        </a>
+        <a href="tasks.html" class="flex flex-col items-center text-gray-500 hover:text-red-600">
+            <i class="fa-solid fa-tasks text-lg"></i>
+            <span class="text-[10px] font-medium mt-0.5">টাস্কস</span>
+        </a>
+        <a href="withdraw.html" class="flex flex-col items-center text-gray-500 hover:text-red-600">
+            <i class="fa-solid fa-wallet text-lg"></i>
+            <span class="text-[10px] font-medium mt-0.5">ওয়ালেট</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-red-600">
+            <i class="fa-solid fa-share-nodes text-lg"></i>
+            <span class="text-[10px] font-medium mt-0.5">কপি লিংক</span>
+        </a>
+    </div>
+
+</body>
+</html>
