@@ -70,6 +70,22 @@
             <p class="text-xs text-red-100 mt-2">ব্যালেন্স উইথড্র করতে নিচের অপশন ব্যবহার করুন</p>
         </div>
 
+        <!-- App Download / Install Banner -->
+        <div id="installBanner" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl p-4 shadow-md flex items-center justify-between hidden">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-white bg-opacity-20 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-download"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm">অ্যাপ ডাউনলোড করুন</h4>
+                    <p class="text-xs text-purple-200">হোম স্ক্রিনে অ্যাপ সেটআপ করুন</p>
+                </div>
+            </div>
+            <button id="installBtn" class="bg-white text-purple-700 px-3 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-purple-50 transition">
+                ইনস্টল
+            </button>
+        </div>
+
         <!-- Withdraw Money Button -->
         <a href="withdraw.html" style="text-decoration: none;">
             <div class="bg-white rounded-xl p-4 shadow-sm flex items-center justify-between border border-gray-100">
@@ -124,7 +140,7 @@
         </a>
     </div>
 
-    <!-- Script for Login Handling -->
+    <!-- Script for Login and App Download Handling -->
     <script>
         window.onload = function() {
             const savedName = localStorage.getItem('nexora_user_name');
@@ -143,7 +159,7 @@
             const phone = document.getElementById('userPhoneInput').value.trim();
 
             if (name === '' || phone === '') {
-                alert('দمه করে আপনার নাম এবং মোবাইল নাম্বার দিন!');
+                alert('দয়া করে আপনার নাম এবং মোবাইল নাম্বার দিন!');
                 return;
             }
 
@@ -160,6 +176,31 @@
             localStorage.removeItem('nexora_user_phone');
             location.reload();
         }
+
+        // PWA App Install Prompt Logic
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.classList.remove('hidden');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                }
+                deferredPrompt = null;
+                installBanner.classList.add('hidden');
+            } else {
+                alert('আপনার ব্রাউজার থেকে মেনু (...) এ গিয়ে "Add to Home screen" বা "Install app" অপশনটি সিলেক্ট করে অ্যাপটি ডাউনলোড করে নিন।');
+            }
+        });
     </script>
 </body>
 </html>
