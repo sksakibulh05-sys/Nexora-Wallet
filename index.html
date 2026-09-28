@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXORA PAY BD - Home</title>
+    <title>NEXORA PAY BD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background-color: #fffbeb; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        /* Live Popup Animation */
         #livePopup {
             transition: all 0.5s ease-in-out;
             transform: translateY(100px);
@@ -20,93 +19,154 @@
         }
     </style>
 </head>
-<body class="max-width-md mx-auto bg-amber-50 min-h-screen pb-24">
+<body class="max-w-md mx-auto bg-amber-50 min-h-screen pb-24">
 
-    <!-- Top User Header -->
-    <div class="bg-yellow-400 px-4 pt-4 pb-4 shadow-md flex items-center justify-between rounded-b-3xl">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow">
-                <i class="fa-solid fa-user text-yellow-600"></i>
-            </div>
-            <div>
-                <h2 class="font-bold text-gray-800 text-sm">Sakibulhasan</h2>
-                <p class="text-xs text-gray-700">01857282062</p>
-            </div>
+    <!-- Auth Section (Login / Register) -->
+    <div id="authContainer" class="p-6 max-w-sm mx-auto mt-10 bg-white rounded-3xl shadow-lg border border-gray-100 hidden">
+        <div class="text-center mb-6">
+            <h2 id="authTitle" class="text-2xl font-black text-gray-800">রেজিস্ট্রেশন করুন</h2>
+            <p class="text-xs text-gray-500 mt-1">নক্ষত্র পে বিডি তে স্বাগতম (একাউন্ট খুললেই ১২০ টাকা বোনাস!)</p>
         </div>
-        <button onclick="logout()" class="bg-white text-gray-800 px-3 py-1.5 rounded-full text-xs font-bold shadow flex items-center space-x-1">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>লগআউট</span>
-        </button>
+
+        <div class="space-y-3">
+            <div id="nameField">
+                <label class="block text-xs font-semibold text-gray-600 mb-1">আপনার নাম</label>
+                <input type="text" id="regName" placeholder="পূর্ণ নাম লিখুন" class="w-full p-3 bg-amber-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-yellow-400">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">মোবাইল নাম্বার</label>
+                <input type="text" id="regPhone" placeholder="১১ ডিজিটের মোবাইল নাম্বার" class="w-full p-3 bg-amber-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-yellow-400">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">পাসওয়ার্ড</label>
+                <input type="password" id="regPass" placeholder="পাসওয়ার্ড দিন" class="w-full p-3 bg-amber-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-yellow-400">
+            </div>
+
+            <div id="refBoxField">
+                <label class="block text-xs font-semibold text-gray-600 mb-1">রেফার কোড (অটো)</label>
+                <input type="text" id="regRefCode" placeholder="রেফার নাম্বার" class="w-full p-3 bg-amber-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-yellow-400">
+            </div>
+
+            <button onclick="handleAuthSubmit()" id="authBtn" class="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3.5 rounded-xl shadow-md transition duration-200 mt-2">
+                রেজিস্ট্রেশন করে ১২০ টাকা বোনাস নিন
+            </button>
+
+            <p class="text-center text-xs text-gray-600 mt-4">
+                <span id="toggleText">আগে থেকেই অ্যাকাউন্ট আছে?</span> 
+                <button onclick="toggleAuthMode()" id="toggleBtn" class="text-red-600 font-bold underline ml-1">লগইন করুন</button>
+            </p>
+        </div>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="px-4 mt-4 space-y-4">
-
-        <!-- App Install Banner (PWA style) -->
-        <div id="installBanner" class="hidden bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl shadow-md flex items-center justify-between">
-            <div>
-                <h3 class="font-bold text-sm">নক্ষত্র পে বিডি অ্যাপ</h3>
-                <p class="text-xs text-purple-100">দ্রুত কাজের জন্য অ্যাপটি ইনস্টল করুন</p>
-            </div>
-            <button id="installBtn" class="bg-white text-purple-700 px-4 py-2 rounded-xl text-xs font-bold shadow">ইনস্টল</button>
-        </div>
-
-        <!-- Total Balance Card -->
-        <div class="bg-red-600 text-white p-5 rounded-3xl shadow-lg text-center relative overflow-hidden">
-            <div class="absolute -right-6 -bottom-6 opacity-15 text-7xl">
-                <i class="fa-solid fa-wallet"></i>
-            </div>
-            <p class="text-xs uppercase tracking-wider text-red-100 mb-1">Total Balance</p>
-            <h1 id="userBalance" class="text-4xl font-extrabold mb-1">৳ 0.00</h1>
-            <p class="text-xs text-red-100">ব্যালেন্স উইথড্র করতে নিচের অপশন ব্যবহার করুন</p>
-        </div>
-
-        <!-- Action Navigation Cards -->
-        <div class="space-y-3">
-            <a href="withdraw.html" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:bg-amber-50 transition">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm text-gray-800">টাকা উত্তোলন (Withdraw)</h3>
-                        <p class="text-xs text-gray-500">বিকাশ, নগদ বা রকেটে টাকা নিন (২০ রেফার বাধ্যতামূলক)</p>
-                    </div>
+    <!-- Main Dashboard (Hidden until logged in) -->
+    <div id="dashboardContainer" class="hidden">
+        <!-- Top User Header -->
+        <div class="bg-yellow-400 px-4 pt-4 pb-4 shadow-md flex items-center justify-between rounded-b-3xl">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow">
+                    <i class="fa-solid fa-user text-yellow-600"></i>
                 </div>
-                <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
-            </a>
-
-            <a href="tasks.html" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:bg-amber-50 transition">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                        <i class="fa-solid fa-list-check"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm text-gray-800">আজকের কাজ (Tasks)</h3>
-                        <p class="text-xs text-gray-500">বিজ্ঞাপন দেখে ও টাস্ক পূরণ করে আয় করুন</p>
-                    </div>
+                <div>
+                    <h2 id="userNameDisplay" class="font-bold text-gray-800 text-sm">User</h2>
+                    <p id="userPhoneDisplay" class="text-xs text-gray-700">018********</p>
                 </div>
-                <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
+            </div>
+            <button onclick="logout()" class="bg-white text-gray-800 px-3 py-1.5 rounded-full text-xs font-bold shadow flex items-center space-x-1">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>লগআউট</span>
+            </button>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="px-4 mt-4 space-y-4">
+
+            <!-- Total Balance Card -->
+            <div class="bg-red-600 text-white p-5 rounded-3xl shadow-lg text-center relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 opacity-15 text-7xl">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <p class="text-xs uppercase tracking-wider text-red-100 mb-1">Total Balance</p>
+                <h1 id="userBalance" class="text-4xl font-extrabold mb-1">৳ 0.00</h1>
+                <p class="text-xs text-red-100">উইথড্র করতে সর্বনিম্ন ৫০০ টাকা ও ২০টি রেফার লাগবে</p>
+            </div>
+
+            <!-- Action Navigation Cards -->
+            <div class="space-y-3">
+                <a href="withdraw.html" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:bg-amber-50 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-gray-800">টাকা উত্তোলন (Withdraw)</h3>
+                            <p class="text-xs text-gray-500">বিকাশ, নগদ বা রকেটে নিন (সর্বনিম্ন ৫০০ টাকা)</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
+                </a>
+
+                <a href="tasks.html" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:bg-amber-50 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-gray-800">আজকের কাজ (Tasks)</h3>
+                            <p class="text-xs text-gray-500">টাস্ক পূরণ করে আয় করুন</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-sm"></i>
+                </a>
+            </div>
+
+            <!-- Referral Section -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <h3 class="font-bold text-sm text-gray-800 flex items-center justify-between">
+                    <span>রেফার করে আয় করুন</span>
+                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">প্রতি রেফার ৳৭০</span>
+                </h3>
+                <p class="text-xs text-gray-500">আপনার লিংক শেয়ার করুন। (উইথড্র করতে কমপক্ষে ২০টি রেফার লাগবে)</p>
+                
+                <div class="flex items-center space-x-2 mt-1">
+                    <input type="text" id="refLink" readonly class="w-full p-2.5 bg-amber-50 border border-gray-200 rounded-xl text-xs text-gray-600 focus:outline-none">
+                    <button onclick="copyRefLink()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2.5 rounded-xl text-xs font-bold shadow flex items-center space-x-1">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>কপি</span>
+                    </button>
+                </div>
+
+                <!-- Live Referral Counter Status -->
+                <div class="bg-amber-50 p-3 rounded-xl border border-yellow-200 flex items-center justify-between">
+                    <span class="text-xs font-semibold text-gray-700">রেফার স্ট্যাটাস:</span>
+                    <span class="text-xs font-bold text-red-600" id="refStatusText">আপনি কাউকে রেফার করেননি (০ জন)</span>
+                </div>
+
+                <p class="text-[11px] text-gray-500 text-right">মোট সফল রেফার: <span id="refCount" class="font-bold text-gray-800">0</span> / 20</p>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-around py-2 shadow-lg z-40">
+            <a href="index.html" class="flex flex-col items-center text-yellow-500">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-medium">হোম</span>
+            </a>
+            <a href="tasks.html" class="flex flex-col items-center text-gray-500">
+                <i class="fa-solid fa-tasks text-lg"></i>
+                <span class="text-[10px] font-medium">টাস্ক</span>
+            </a>
+            <a href="withdraw.html" class="flex flex-col items-center text-gray-500">
+                <i class="fa-solid fa-wallet text-lg"></i>
+                <span class="text-[10px] font-medium">উইথড্র</span>
+            </a>
+            <a href="#refLink" class="flex flex-col items-center text-gray-500">
+                <i class="fa-solid fa-share-nodes text-lg"></i>
+                <span class="text-[10px] font-medium">রেফার</span>
             </a>
         </div>
-
-        <!-- Referral Section -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
-            <h3 class="font-bold text-sm text-gray-800 flex items-center justify-between">
-                <span>রেফার করে আয় করুন</span>
-                <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-bold">প্রতি রেফার ৳৭০</span>
-            </h3>
-            <p class="text-xs text-gray-500">আপনার রেফার লিংক বন্ধুদের সাথে শেয়ার করুন। (উইথড্র করতে কমপক্ষে ২০টি রেফার লাগবে)</p>
-            <div class="flex items-center space-x-2 mt-2">
-                <input type="text" id="refLink" readonly value="https://aksakibulh05-sys.github.io/?ref=01857282062" class="w-full p-2.5 bg-amber-50 border border-gray-200 rounded-xl text-xs text-gray-600 focus:outline-none">
-                <button onclick="copyRefLink()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2.5 rounded-xl text-xs font-bold shadow flex items-center space-x-1">
-                    <i class="fa-solid fa-copy"></i>
-                    <span>কপি</span>
-                </button>
-            </div>
-            <p class="text-[11px] text-gray-500 text-right">মোট সফল রেফার: <span id="refCount" class="font-bold text-gray-800">0</span> / 20</p>
-        </div>
-
     </div>
 
     <!-- Live Withdraw Notification Popup -->
@@ -115,40 +175,146 @@
             <i class="fa-solid fa-circle-check text-lg"></i>
         </div>
         <div class="overflow-hidden">
-            <p class="text-xs text-gray-300" id="popupText">সাদিয়া আক্তার (017********) সফলভাবে ৳১২০ উত্তোলন করেছেন!</p>
+            <p class="text-xs text-gray-300" id="popupText">সাদিয়া আক্তার (017********) সফলভাবে ৳৫০০ উত্তোলন করেছেন!</p>
             <span class="text-[10px] text-emerald-400">মাত্রই পেমেন্ট সম্পন্ন হয়েছে</span>
         </div>
     </div>
 
-    <!-- Bottom Navigation Bar -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-around py-2 shadow-lg z-40">
-        <a href="index.html" class="flex flex-col items-center text-yellow-500">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-medium">হোম</span>
-        </a>
-        <a href="tasks.html" class="flex flex-col items-center text-gray-500">
-            <i class="fa-solid fa-tasks text-lg"></i>
-            <span class="text-[10px] font-medium">টাস্ক</span>
-        </a>
-        <a href="withdraw.html" class="flex flex-col items-center text-gray-500">
-            <i class="fa-solid fa-wallet text-lg"></i>
-            <span class="text-[10px] font-medium">উইথড্র</span>
-        </a>
-        <a href="#refLink" class="flex flex-col items-center text-gray-500">
-            <i class="fa-solid fa-share-nodes text-lg"></i>
-            <span class="text-[10px] font-medium">রেফার</span>
-        </a>
-    </div>
-
 <script>
-    // Balance sync
-    let balance = parseFloat(localStorage.getItem('balance')) || 0.00;
-    document.getElementById('userBalance').innerText = '৳ ' + balance.toFixed(2);
+    let isLoginMode = false;
 
-    let refCount = parseInt(localStorage.getItem('refCount')) || 0;
-    document.getElementById('refCount').innerText = refCount;
+    // Check URL for Ref parameter and auto-fill
+    const urlParams = new URLSearchParams(window.location.search);
+    const refFromUrl = urlParams.get('ref');
+    if (refFromUrl) {
+        localStorage.setItem('pendingRef', refFromUrl);
+    }
 
-    // Copy Referral Link
+    window.onload = function() {
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('dashboardContainer').classList.remove('hidden');
+            loadUserData(currentUser);
+        } else {
+            document.getElementById('authContainer').classList.remove('hidden');
+            const savedRef = localStorage.getItem('pendingRef');
+            if (savedRef) {
+                document.getElementById('regRefCode').value = savedRef;
+            }
+        }
+    };
+
+    function toggleAuthMode() {
+        isLoginMode = !isLoginMode;
+        if (isLoginMode) {
+            document.getElementById('authTitle').innerText = 'লগইন করুন';
+            document.getElementById('nameField').classList.add('hidden');
+            document.getElementById('refBoxField').classList.add('hidden');
+            document.getElementById('authBtn').innerText = 'লগইন করুন';
+            document.getElementById('toggleText').innerText = 'অ্যাকাউন্ট নেই?';
+            document.getElementById('toggleBtn').innerText = 'রেজিস্ট্রেশন করুন';
+        } else {
+            document.getElementById('authTitle').innerText = 'রেজিস্ট্রেশন করুন';
+            document.getElementById('nameField').classList.remove('hidden');
+            document.getElementById('refBoxField').classList.remove('hidden');
+            document.getElementById('authBtn').innerText = 'রেজিস্ট্রেশন করে ১২০ টাকা বোনাস নিন';
+            document.getElementById('toggleText').innerText, 'আগে থেকেই অ্যাকাউন্ট আছে?';
+            document.getElementById('toggleBtn').innerText = 'লগইন করুন';
+        }
+    }
+
+    function handleAuthSubmit() {
+        const phone = document.getElementById('regPhone').value.trim();
+        const pass = document.getElementById('regPass').value.trim();
+
+        if (!phone || !pass) {
+            alert('দয়া করে সব ঘর পূরণ করুন!');
+            return;
+        }
+
+        if (isLoginMode) {
+            const savedData = localStorage.getItem('user_' + phone);
+            if (!savedData) {
+                alert('এই নাম্বারে কোনো অ্যাকাউন্ট নেই! দয়া করে রেজিস্ট্রেশন করুন।');
+                return;
+            }
+            const userObj = JSON.parse(savedData);
+            if (userObj.pass !== pass) {
+                alert('ভুল পাসওয়ার্ড দেওয়া হয়েছে!');
+                return;
+            }
+            localStorage.setItem('currentUser', phone);
+            location.reload();
+        } else {
+            const name = document.getElementById('regName').value.trim();
+            const refCode = document.getElementById('regRefCode').value.trim();
+
+            if (!name) {
+                alert('দয়া করে আপনার নাম লিখুন!');
+                return;
+            }
+
+            if (localStorage.getItem('user_' + phone)) {
+                alert('এই নাম্বার দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট খোলা আছে!');
+                return;
+            }
+
+            // New user registration with 120 BDT signup bonus
+            const newUser = {
+                name: name,
+                phone: phone,
+                pass: pass,
+                balance: 120.00, 
+                refCount: 0
+            };
+
+            localStorage.setItem('user_' + phone, JSON.stringify(newUser));
+            localStorage.setItem('currentUser', phone);
+
+            // Handle referral bonus (70 BDT per referral) and update referrer's count text dynamically
+            if (refCode && refCode !== phone) {
+                let referrerData = localStorage.getItem('user_' + refCode);
+                if (referrerData) {
+                    let refObj = JSON.parse(referrerData);
+                    refObj.refCount = (refObj.refCount || 0) + 1;
+                    refObj.balance = (refObj.balance || 0) + 70.00;
+                    localStorage.setItem('user_' + refCode, JSON.stringify(refObj));
+                }
+            }
+
+            alert('রেজিস্ট্রেশন সফল হয়েছে এবং আপনি ১২০ টাকা বোনাস পেয়েছেন!');
+            location.reload();
+        }
+    }
+
+    function loadUserData(phone) {
+        let userData = JSON.parse(localStorage.getItem('user_' + phone));
+
+        document.getElementById('userNameDisplay').innerText = userData.name;
+        document.getElementById('userPhoneDisplay').innerText = userData.phone;
+        document.getElementById('userBalance').innerText = '৳ ' + (userData.balance).toFixed(2);
+        
+        let count = userData.refCount || 0;
+        document.getElementById('refCount').innerText = count;
+
+        // Dynamic Text Display for Referrals (যেমন: আপনি ৩ জনকে রেফার করেছেন)
+        if (count === 0) {
+            document.getElementById('refStatusText').innerText = 'আপনি কাউকে রেফার করেননি (০ জন)';
+        } else if (count === 1) {
+            document.getElementById('refStatusText').innerText = 'আপনি ১ জনকে রেফার করেছেন';
+        } else {
+            document.getElementById('refStatusText').innerText = `আপনি মোট ${count} জনকে রেফার করেছেন`;
+        }
+
+        const currentDomain = window.location.origin + window.location.pathname;
+        document.getElementById('refLink').value = currentDomain + '?ref=' + userData.phone;
+
+        // Sync with global keys for other pages
+        localStorage.setItem('balance', userData.balance);
+        localStorage.setItem('refCount', count);
+    }
+
     function copyRefLink() {
         const refInput = document.getElementById('refLink');
         refInput.select();
@@ -158,78 +324,33 @@
     }
 
     function logout() {
-        localStorage.clear();
+        localStorage.removeItem('currentUser');
         alert('লগআউট সফল হয়েছে!');
         location.reload();
     }
 
-    // Live Withdraw Popups Data (25+ entries)
+    // Live Withdraw Popups
     const withdrawNames = [
-        {name: "সাদিয়া আক্তার", phone: "017********", amount: 150},
-        {name: "সবুজ মিয়া", phone: "018********", amount: 300},
-        {name: "রনি আহমেদ", phone: "019********", amount: 120},
-        {name: "ফারিহা ইসলাম", phone: "013********", amount: 500},
-        {name: "জাকির হোসেন", phone: "016********", amount: 250},
-        {name: "নাজমুল হাসান", phone: "015********", amount: 120},
-        {name: "রিয়া মনি", phone: "017********", amount: 400},
-        {name: "কামরুল ইসলাম", phone: "018********", amount: 120},
-        {name: "পপি আক্তার", phone: "019********", amount: 600},
-        {name: "শিমুল আহমেদ", phone: "013********", amount: 150},
-        {name: "তানভীর রহমান", phone: "016********", amount: 350},
-        {name: "মীম আক্তার", phone: "015********", amount: 200},
-        {name: "সুজন মিয়া", phone: "017********", amount: 120},
-        {name: "আরিফ হোসেন", phone: "018********", amount: 450},
-        {name: "মুক্তা মনি", phone: "019********", amount: 120},
-        {name: "ইব্রাহিম খলিল", phone: "013********", amount: 300},
-        {name: "রোমানা খাতুন", phone: "016********", amount: 150},
-        {name: "সোহেল রানা", phone: "015********", amount: 250},
-        {name: "জেসমিন আক্তার", phone: "017********", amount: 500},
-        {name: "হাসান আলী", phone: "018********", amount: 120},
-        {name: "মিতু আক্তার", phone: "019********", amount: 350},
-        {name: "আল-আমিন", phone: "013********", amount: 180},
-        {name: "শারমিন সুলতানা", phone: "016********", amount: 220},
-        {name: "লিটন মিয়া", phone: "015********", amount: 400},
-        {name: "নাদিরা খান", phone: "017********", amount: 120}
+        {name: "সাদিয়া আক্তার", phone: "017********", amount: 500},
+        {name: "সবুজ মিয়া", phone: "018********", amount: 1000},
+        {name: "রনি আহমেদ", phone: "019********", amount: 500},
+        {name: "ফারিহা ইসলাম", phone: "013********", amount: 1200},
+        {name: "জাকির হোসেন", phone: "016********", amount: 500},
+        {name: "নাজমুল হাসান", phone: "015********", amount: 800}
     ];
 
     function showLivePopup() {
         const popup = document.getElementById('livePopup');
         const popupText = document.getElementById('popupText');
-        
         const randomUser = withdrawNames[Math.floor(Math.random() * withdrawNames.length)];
         popupText.innerText = `${randomUser.name} (${randomUser.phone}) সফলভাবে ৳${randomUser.amount} উত্তোলন করেছেন!`;
-
         popup.classList.add('show');
-
         setTimeout(() => {
             popup.classList.remove('show');
-        }, 4000); // Display for 4 seconds
+        }, 4000);
     }
 
-    // Trigger every 5 seconds
     setInterval(showLivePopup, 5000);
-
-    // PWA Install Prompt Logic
-    let deferredPrompt;
-    const installBanner = document.getElementById('installBanner');
-    const installBtn = document.getElementById('installBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBanner.classList.remove('hidden');
-    });
-
-    installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                installBanner.classList.add('hidden');
-            }
-            deferredPrompt = null;
-        }
-    });
 </script>
 </body>
 </html>
