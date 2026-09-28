@@ -18,44 +18,76 @@
             <i class="fa-solid fa-arrow-left"></i>
             <span>হোমে ফিরুন</span>
         </a>
-        <h2 class="font-bold text-gray-800 text-sm">প্রতিদিনের টাস্ক</h2>
+        <h2 class="font-bold text-gray-800 text-sm">প্রতিদিনের টাস্ক (৪টি টাস্ক)</h2>
         <div class="text-xs font-bold bg-white px-3 py-1.5 rounded-full shadow text-red-600">
             ব্যালেন্স: <span id="taskBalance">৳ 0.00</span>
         </div>
     </div>
 
-    <!-- Task List Container -->
-    <div class="px-4 mt-4 space-y-3">
-        <p class="text-xs text-gray-500 mb-2">নিচের টাস্কগুলোতে ক্লিক করে ১৫ সেকেন্ড অপেক্ষা করুন এবং ৫ টাকা করে উপার্জন করুন!</p>
+    <!-- Task List Container (4 Tasks) -->
+    <div class="px-4 mt-4 space-y-3" id="taskListContainer">
+        <p class="text-xs text-gray-500 mb-2">প্রতিটি টাস্কে ১০টি করে অ্যাড রয়েছে। প্রতিটি অ্যাড ১৫ সেকেন্ড দেখে ৫ টাকা অর্জন করুন!</p>
 
-        <!-- Task Item 1 -->
+        <!-- Task 1 -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                    <i class="fa-solid fa-ad"></i>
+                    <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-sm text-gray-800">অ্যাড ভিজিট টাস্ক ১</h3>
-                    <p class="text-xs text-emerald-600 font-bold">রিওয়ার্ড: ৳ ৫.০০</p>
+                    <h3 class="font-bold text-sm text-gray-800">টাস্ক ১</h3>
+                    <p class="text-xs text-gray-500">প্রোগ্রেস: <span id="progress_1" class="font-bold text-red-600">০/১০</span> অ্যাড</p>
                 </div>
             </div>
-            <button onclick="startTask(5)" id="taskBtn1" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold shadow">
+            <button onclick="startTask(1)" id="btn_1" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold shadow">
                 কাজ শুরু করুন
             </button>
         </div>
 
-        <!-- Task Item 2 -->
+        <!-- Task 2 -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                    <i class="fa-solid fa-ad"></i>
+                    <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-sm text-gray-800">অ্যাড ভিজিট টাস্ক ২</h3>
-                    <p class="text-xs text-emerald-600 font-bold">রিওয়ার্ড: ৳ ৫.০০</p>
+                    <h3 class="font-bold text-sm text-gray-800">টাস্ক ২</h3>
+                    <p class="text-xs text-gray-500">প্রোগ্রেস: <span id="progress_2" class="font-bold text-red-600">০/১০</span> অ্যাড</p>
                 </div>
             </div>
-            <button onclick="startTask(5)" id="taskBtn2" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold shadow">
+            <button onclick="startTask(2)" id="btn_2" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold shadow">
+                কাজ শুরু করুন
+            </button>
+        </div>
+
+        <!-- Task 3 -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-gray-800">টাস্ক ৩</h3>
+                    <p class="text-xs text-gray-500">প্রোগ্রেস: <span id="progress_3" class="font-bold text-red-600">০/১০</span> অ্যাড</p>
+                </div>
+            </div>
+            <button onclick="startTask(3)" id="btn_3" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold shadow">
+                কাজ শুরু করুন
+            </button>
+        </div>
+
+        <!-- Task 4 -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-gray-800">টাস্ক ৪</h3>
+                    <p class="text-xs text-gray-500">প্রোগ্রেস: <span id="progress_4" class="font-bold text-red-600">০/১০</span> অ্যাড</p>
+                </div>
+            </div>
+            <button onclick="startTask(4)" id="btn_4" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold shadow">
                 কাজ শুরু করুন
             </button>
         </div>
@@ -68,28 +100,53 @@
             <div class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold animate-pulse">
                 <i class="fa-solid fa-clock"></i>
             </div>
-            <h3 class="font-bold text-gray-800 text-base">অ্যাড দেখা হচ্ছে...</h3>
+            <h3 class="font-bold text-gray-800 text-base" id="modalTitle">অ্যাড দেখা হচ্ছে...</h3>
             <p class="text-xs text-gray-500">দয়া করে ১৫ সেকেন্ড অপেক্ষা করুন। পেজটি কেটে যাবেন না!</p>
             <div id="countdown" class="text-3xl font-black text-red-600">15</div>
-            <p class="text-[10px] text-gray-400">আপনার আয় নিশ্চিত করতে এই সময়ে পেজটিতে থাকুন।</p>
+            <p class="text-[10px] text-gray-400">এই সময়ে আপনার বিজ্ঞাপনের ইম্প্রেশন কাউন্ট হচ্ছে।</p>
         </div>
     </div>
 
 <script>
     let currentUserPhone = localStorage.getItem('currentUser');
-    
-    function updateDisplayBalance() {
-        if (currentUserPhone) {
-            let userData = JSON.parse(localStorage.getItem('user_' + currentUserPhone));
-            if (userData) {
-                document.getElementById('taskBalance').innerText = '৳ ' + userData.balance.toFixed(2);
+
+    function loadTaskData() {
+        if (!currentUserPhone) return;
+        let userData = JSON.parse(localStorage.getItem('user_' + currentUserPhone));
+        if (!userData) return;
+
+        document.getElementById('taskBalance').innerText = '৳ ' + userData.balance.toFixed(2);
+
+        // Load progress for 4 tasks
+        if (!userData.taskProgress) userData.taskProgress = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+        for (let i = 1; i <= 4; i++) {
+            let count = userData.taskProgress[i] || 0;
+            document.getElementById('progress_' + i).innerText = count + '/10';
+            if (count >= 10) {
+                let btn = document.getElementById('btn_' + i);
+                btn.innerText = 'সম্পন্ন';
+                btn.disabled = true;
+                btn.className = 'bg-gray-200 text-gray-500 px-4 py-2 rounded-xl text-xs font-bold cursor-not-allowed';
             }
         }
     }
-    window.onload = updateDisplayBalance;
 
-    function startTask(rewardAmount) {
+    window.onload = loadTaskData;
+
+    function startTask(taskNumber) {
+        if (!currentUserPhone) return;
+        let userData = JSON.parse(localStorage.getItem('user_' + currentUserPhone));
+        if (!userData.taskProgress) userData.taskProgress = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+        let currentCount = userData.taskProgress[taskNumber] || 0;
+        if (currentCount >= 10) {
+            alert('এই টাস্কটির ১০টি অ্যাড ইতিমধ্যেই দেখা শেষ হয়েছে!');
+            return;
+        }
+
         const modal = document.getElementById('timerModal');
+        document.getElementById('modalTitle').innerText = `টাস্ক ${taskNumber} - অ্যাড (${currentCount + 1}/10)`;
         modal.classList.remove('hidden');
 
         let timeLeft = 15;
@@ -103,18 +160,15 @@
                 clearInterval(timerInterval);
                 modal.classList.add('hidden');
 
-                // ইউজার যখন সফলভাবে ১৫ সেকেন্ড পূর্ণ করবে, তখন ব্যালেন্সে টাকা যোগ হবে
-                if (currentUserPhone) {
-                    let userData = JSON.parse(localStorage.getItem('user_' + currentUserPhone));
-                    userData.balance = (userData.balance || 0) + rewardAmount;
-                    localStorage.setItem('user_' + currentUserPhone, JSON.stringify(userData));
-                    
-                    // হোম পেজের সাথে ব্যালেন্স সিঙ্ক করার জন্য
-                    localStorage.setItem('balance', userData.balance);
-                    updateDisplayBalance();
-                }
+                // Update progress and balance (5 BDT per ad)
+                userData.taskProgress[taskNumber] += 1;
+                userData.balance = (userData.balance || 0) + 5.00;
 
-                alert(`অভিনন্দন! আপনি সফলভাবে টাস্ক সম্পন্ন করে ৳${rewardAmount} আয় করেছেন!`);
+                localStorage.setItem('user_' + currentUserPhone, JSON.stringify(userData));
+                localStorage.setItem('balance', userData.balance);
+
+                loadTaskData();
+                alert(`অভিনন্দন! সফলভাবে ১টি অ্যাড দেখে ৳৫ অর্জন করেছেন।`);
             }
         }, 1000);
     }
