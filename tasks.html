@@ -3,119 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks - NEXORA PAY BD</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>টাস্ক পেজ - আয় করুন</title>
     <style>
         body {
-            background-color: #fffbeb;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 15px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .balance-box {
+            background: #e8f4fd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .category-section {
+            margin-bottom: 25px;
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .task-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-info h4 {
+            margin: 0 0 3px 0;
+            color: #333;
+        }
+        .task-info p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+        .btn-task {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-task:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        /* Timer Modal */
+        #timerModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 300px;
+        }
+        #countdown {
+            font-size: 32px;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 15px 0;
         }
     </style>
 </head>
-<body class="max-w-md mx-auto bg-amber-50 min-h-screen pb-20">
+<body>
 
-    <!-- Header -->
-    <div class="bg-yellow-400 px-4 pt-4 pb-4 rounded-b-3xl shadow-md flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <a href="index.html" class="text-gray-800 text-xl">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <h1 class="text-base font-bold text-gray-800">ডেইলি টাস্কস (অ্যাড দেখুন)</h1>
-        </div>
-        <div class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-red-600 shadow-sm">
-            <i class="fa-solid fa-briefcase"></i>
-        </div>
+<div class="container">
+    <h2>আজকের কাজের তালিকা</h2>
+    
+    <div class="balance-box">
+        <span>টোটাল ব্যালেন্স:</span>
+        <span id="userBalance">৳ 0.00</span>
     </div>
 
-    <!-- Task List Area -->
-    <div class="px-4 mt-6 space-y-4">
+    <!-- ৪টি ক্যাটাগরি বা টাস্ক সেকশন -->
+    <div id="allCategories">
+        <!-- জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক্যালি লোড হবে -->
+    </div>
+</div>
+
+<!-- টাইমার মডাল -->
+<div id="timerModal">
+    <div class="modal-content">
+        <h3>বিজ্ঞাপন দেখা হচ্ছে...</h3>
+        <div id="countdown">15</div>
+        <p>দয়া করে ১৫ সেকেন্ড অপেক্ষা করুন।</p>
+    </div>
+</div>
+
+<script>
+    // আপনার এডস্টার্নার ডাইরেক্ট লিংক এখানে বসানো আছে
+    const adsterraLink = "https://www.highperformanceformat.com/31446614"; // আপনার আইডি দিয়ে লিংকটি সেট করা হয়েছে
+
+    let balance = parseFloat(localStorage.getItem('userBalance')) || 0.00;
+    const rewardPerTask = 5.00;
+    const totalCategories = 4;
+    const tasksPerCategory = 10;
+
+    document.getElementById('userBalance').innerText = '৳ ' + balance.toFixed(2);
+
+    function renderTasks() {
+        const container = document.getElementById('allCategories');
+        container.innerHTML = '';
+
+        for (let cat = 1; cat <= totalCategories; cat++) {
+            let catCompletedCount = parseInt(localStorage.getItem(`cat_${cat}_count`)) || 0;
+            
+            let html = `
+                <div class="category-section">
+                    <h3>ক্যাটাগরি টাস্ক #${cat}</h3>
+            `;
+
+            if (catCompletedCount >= tasksPerCategory) {
+                html += `<p style="text-align:center; color:red; font-weight:bold;">এই ক্যাটাগরির ১০টি টাস্ক শেষ!</p>`;
+            } else {
+                for (let i = 1; i <= tasksPerCategory; i++) {
+                    let isDone = i <= catCompletedCount;
+                    html += `
+                        <div class="task-card">
+                            <div class="task-info">
+                               <h4>টাস্ক #${i}</h4>
+                               <p>রিওয়ার্ড: ৳${rewardPerTask.toFixed(2)}</p>
+                            </div>
+                            <button class="btn-task" ${isDone ? 'disabled style="background:#95a5a6;"' : ''} onclick="startTask(${cat}, ${i})">
+                                ${isDone ? 'সম্পন্ন' : 'অ্যাড দেখুন'}
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+            html += `</div>`;
+            container.innerHTML += html;
+        }
+    }
+
+    function startTask(catId, taskNo) {
+        // এডস্টার্নার লিংক নতুন ট্যাবে ওপেন হবে
+        window.open(adsterraLink, '_blank');
+
+        const modal = document.getElementById('timerModal');
+        const countdownEl = document.getElementById('countdown');
+        modal.style.display = 'flex';
         
-        <!-- Task Item 1 -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 text-xl">
-                    <i class="fa-solid fa-video"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm text-gray-800">ভিডিও টাস্ক ১</h3>
-                    <p class="text-xs text-emerald-600 font-medium mt-0.5">১০টি অ্যাড • প্রতি অ্যাড ৫ টাকা</p>
-                </div>
-            </div>
-            <button onclick="alert('টাস্ক ১ এর কাজ শুরু হচ্ছে! অ্যাড দেখা শেষ হলে একাউন্টে টাকা যোগ হবে।')" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl font-bold text-xs shadow-sm transition">
-                শুরু করুন
-            </button>
-        </div>
+        let timeLeft = 15;
+        countdownEl.innerText = timeLeft;
 
-        <!-- Task Item 2 -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl">
-                    <i class="fa-solid fa-play-circle"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm text-gray-800">ভিডিও টাস্ক ২</h3>
-                    <p class="text-xs text-emerald-600 font-medium mt-0.5">১০টি অ্যাড • প্রতি অ্যাড ৫ টাকা</p>
-                </div>
-            </div>
-            <button onclick="alert('টাস্ক ২ এর কাজ শুরু হচ্ছে! অ্যাড দেখা শেষ হলে একাউন্টে টাকা যোগ হবে।')" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl font-bold text-xs shadow-sm transition">
-                শুরু করুন
-            </button>
-        </div>
+        let timer = setInterval(() => {
+            timeLeft--;
+            countdownEl.innerText = timeLeft;
 
-        <!-- Task Item 3 -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 text-xl">
-                    <i class="fa-solid fa-tv"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm text-gray-800">ভিডিও টাস্ক ৩</h3>
-                    <p class="text-xs text-emerald-600 font-medium mt-0.5">১০টি অ্যাড • প্রতি অ্যাড ৫ টাকা</p>
-                </div>
-            </div>
-            <button onclick="alert('টাস্ক ৩ এর কাজ শুরু হচ্ছে! অ্যাড দেখা শেষ হলে একাউন্টে টাকা যোগ হবে।')" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl font-bold text-xs shadow-sm transition">
-                শুরু করুন
-            </button>
-        </div>
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                modal.style.display = 'none';
 
-        <!-- Task Item 4 -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-xl">
-                    <i class="fa-solid fa-clapperboard"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm text-gray-800">ভিডিও টাস্ক ৪</h3>
-                    <p class="text-xs text-emerald-600 font-medium mt-0.5">১০টি অ্যাড • প্রতি অ্যাড ৫ টাকা</p>
-                </div>
-            </div>
-            <button onclick="alert('টাস্ক ৪ এর কাজ শুরু হচ্ছে! অ্যাড দেখা শেষ হলে একাউন্টে টাকা যোগ হবে।')" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-xl font-bold text-xs shadow-sm transition">
-                শুরু করুন
-            </button>
-        </div>
+                // ব্যালেন্স এবং ক্যাটাগরি কাউন্ট আপডেট
+                balance += rewardPerTask;
+                localStorage.setItem('userBalance', balance);
+                
+                let currentCatCount = parseInt(localStorage.getItem(`cat_${catId}_count`)) || 0;
+                localStorage.setItem(`cat_${catId}_count`, currentCatCount + 1);
 
-    </div>
+                document.getElementById('userBalance').innerText = '৳ ' + balance.toFixed(2);
+                renderTasks();
 
-    <!-- Bottom Navigation Bar -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 py-2 px-6 flex justify-between items-center shadow-lg">
-        <a href="index.html" class="flex flex-col items-center text-gray-500 hover:text-red-600">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">হোম</span>
-        </a>
-        <a href="tasks.html" class="flex flex-col items-center text-red-600">
-            <i class="fa-solid fa-tasks text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">টাস্কস</span>
-        </a>
-        <a href="withdraw.html" class="flex flex-col items-center text-gray-500 hover:text-red-600">
-            <i class="fa-solid fa-wallet text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">ওয়ালেট</span>
-        </a>
-        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-red-600">
-            <i class="fa-solid fa-share-nodes text-lg"></i>
-            <span class="text-[10px] font-medium mt-0.5">কপি লিংক</span>
-        </a>
-    </div>
+                alert('অভিনন্দন! কাজটি সফল হয়েছে এবং ৫ টাকা যোগ হয়েছে।');
+            }
+        }, 1000);
+    }
+
+    renderTasks();
+</script>
 
 </body>
 </html>
