@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora Wallet - Admin & User System</title>
+    <title>Nexora Wallet - Earning App</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -134,7 +134,7 @@
             color: #777;
         }
 
-        /* Admin Live Stats Box (Strictly for Owner) */
+        /* Owner Secret Stats Box */
         .admin-stats-box {
             background: #111b21;
             color: #fff;
@@ -142,7 +142,7 @@
             margin: 15px;
             border-radius: 16px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            display: none; /* ডিফল্টভাবে হাইড থাকবে, শুধু মালিকের জন্য ওপেন হবে */
+            display: none;
         }
         .admin-stats-box h4 {
             color: #ffcc00;
@@ -258,7 +258,7 @@
             font-weight: bold;
         }
 
-        /* Task & Withdraw Views */
+        /* Page Sections */
         .page-section {
             display: none;
         }
@@ -389,7 +389,7 @@
             </div>
         </div>
 
-        <!-- STRICTLY OWNER ONLY: LIVE STATS PANEL -->
+        <!-- STRICTLY OWNER ONLY: SECRET STATS PANEL -->
         <div id="owner-stats-panel" class="admin-stats-box">
             <h4>👑 গোপন অ্যাডমিন কন্ট্রোল প্যানেল (শুধু আপনার জন্য)</h4>
             <p>👥 আজকে মোট ভিজিটর/ইউজার: <span id="stat-total-users">1</span> জন</p>
@@ -441,199 +441,17 @@
         </div>
     </div>
 
-    <!-- TASK PAGE SECTION -->
+    <!-- TASK PAGE SECTION (4 TASKS) -->
     <div id="task-page" class="page-section">
         <div class="top-bar">
-            <button onclick="switchPage('home-page')" style="border:none; background:#fff; padding:6px 12px; border-radius:15px; cursor:pointer;">
-                <i class="fas fa-arrow-left"></i> হোমে ফিরুন
-            </button>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <button onclick="switchPage('home-page')" style="border:none; background:#fff; padding:6px 12px; border-radius:15px; cursor:pointer;">
+                    <i class="fas fa-arrow-left"></i> হোমে ফিরুন
+                </button>
+            </div>
             <div style="background:#fff; padding:6px 12px; border-radius:15px; font-weight:bold; font-size:13px;">
                 ব্যালেন্স: ৳ <span class="val-balance">150.00</span>
             </div>
         </div>
         
-        <p style="padding:15px; font-size:13px; color:#555;">প্রতিটি টাস্কে ১০টি করে অ্যাড রয়েছে। প্রতিটি অ্যাড ১৫ সেকেন্ড দেখে ৫ টাকা অর্জন করুন!</p>
-
-        <div class="task-card">
-            <div>
-                <h4>টাস্ক ১</h4>
-                <p style="font-size:12px; color:#777;">প্রোগ্রেস: <span id="task1-count">0</span>/10 অ্যাড</p>
-            </div>
-            <button class="task-btn" onclick="doAdTask(1)">কাজ শুরু করুন</button>
-        </div>
-        <div class="task-card">
-            <div>
-                <h4>টাস্ক ২</h4>
-                <p style="font-size:12px; color:#777;">প্রোগ্রেস: <span id="task2-count">0</span>/10 অ্যাড</p>
-            </div>
-            <button class="task-btn" onclick="doAdTask(2)">কাজ শুরু করুন</button>
-        </div>
-    </div>
-
-    <!-- WITHDRAW PAGE SECTION -->
-    <div id="withdraw-page" class="page-section">
-        <div class="top-bar">
-            <button onclick="switchPage('home-page')" style="border:none; background:#fff; padding:6px 12px; border-radius:15px; cursor:pointer;">
-                <i class="fas fa-arrow-left"></i> Withdraw Money
-            </button>
-        </div>
-        <div class="card-container">
-            <div class="balance-card" style="background:#fff; color:#333; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
-                <span style="color:#777;">বর্তমান ব্যালেন্স</span>
-                <h1 style="color:#e52d27;">৳ <span class="val-balance">150.00</span></h1>
-            </div>
-        </div>
-    </div>
-
-    <!-- LIVE POPUP TOAST -->
-    <div class="toast" id="live-toast" style="bottom: 75px;">
-        <div class="toast-icon"><i class="fas fa-check" style="color:#fff;"></i></div>
-        <div>
-            <p id="toast-text" style="font-weight:600;">নাজমুল হাসান (015********) সফলভাবে ৳৮০০ উত্তোলন করেছেন!</p>
-            <span style="font-size:11px; color:#aaa;">মাত্রই পেমেন্ট সম্পন্ন হয়েছে</span>
-        </div>
-    </div>
-
-    <!-- BOTTOM NAVBAR -->
-    <div class="nav-bar">
-        <div class="nav-item active" onclick="switchPage('home-page')">
-            <i class="fas fa-home"></i> হোম
-        </div>
-        <div class="nav-item" onclick="switchPage('task-page')">
-            <i class="fas fa-list-ul"></i> টাস্ক
-        </div>
-        <div class="nav-item" onclick="switchPage('withdraw-page')">
-            <i class="fas fa-wallet"></i> উইথড্র
-        </div>
-        <div class="nav-item" onclick="copyReferLink()">
-            <i class="fas fa-share-alt"></i> রেফার
-        </div>
-    </div>
-
-    <script>
-        const OWNER_PHONE = "01857282062"; 
-        let activeUser = localStorage.getItem('site_active_user');
-
-        let totalVisits = parseInt(localStorage.getItem('stat_visits')) || 12;
-        let totalAdsWatched = parseInt(localStorage.getItem('stat_ads')) || 45;
-        let totalTasksDone = parseInt(localStorage.getItem('stat_tasks')) || 8;
-
-        if (!activeUser) {
-            let createdAccounts = JSON.parse(localStorage.getItem('device_accounts')) || [];
-            if (createdAccounts.length >= 2) {
-                alert("এই ডিভাইস থেকে সর্বোচ্চ ২টির বেশি অ্যাকাউন্ট খোলা যাবে না!");
-            }
-            document.getElementById('auth-modal').style.display = 'flex';
-        } else {
-            setupUserData(activeUser);
-        }
-
-        function registerOrLoginUser() {
-            let phoneInput = document.getElementById('user-phone-input').value.trim();
-            if (phoneInput.length < 11) {
-                alert("দয়া করে সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
-                return;
-            }
-
-            let createdAccounts = JSON.parse(localStorage.getItem('device_accounts')) || [];
-            if (!createdAccounts.includes(phoneInput) && createdAccounts.length >= 2) {
-                alert("দুঃখিত! এই ডিভাইস থেকে আর নতুন অ্যাকাউন্ট খোলা যাবে না।");
-                return;
-            }
-
-            if (!createdAccounts.includes(phoneInput)) {
-                createdAccounts.push(phoneInput);
-                localStorage.setItem('device_accounts', JSON.stringify(createdAccounts));
-            }
-
-            localStorage.setItem('site_active_user', phoneInput);
-            totalVisits += 1;
-            localStorage.setItem('stat_visits', totalVisits);
-
-            document.getElementById('auth-modal').style.display = 'none';
-            setupUserData(phoneInput);
-            location.reload();
-        }
-
-        function setupUserData(phone) {
-            // চেক করা হচ্ছে ইউজার কি মালিক নিজে নাকি সাধারণ ইউজার
-            if (phone === OWNER_PHONE) {
-                document.getElementById('display-name').innerText = "এস কে সাকিবুল হাসান";
-                document.getElementById('display-phone').innerText = "Owner (Admin)";
-                // শুধুমাত্র আপনার (মালিকের) ক্ষেত্রে গোপন প্যানেল দৃশ্যমান হবে
-                document.getElementById('owner-stats-panel').style.display = 'block';
-                document.getElementById('stat-total-users').innerText = totalVisits;
-                document.getElementById('stat-total-ads').innerText = totalAdsWatched;
-                document.getElementById('stat-total-tasks').innerText = totalTasksDone;
-            } else {
-                document.getElementById('display-name').innerText = "User (" + phone.slice(0, 5) + "****)";
-                document.getElementById('display-phone').innerText = phone;
-                // সাধারণ ইউজারের ক্ষেত্রে গোপন প্যানেল সম্পূর্ণ লুকানো থাকবে
-                document.getElementById('owner-stats-panel').style.display = 'none';
-            }
-
-            let baseUrl = window.location.href.split('?')[0];
-            document.getElementById('my-refer-link').value = `${baseUrl}?ref=${phone}`;
-        }
-
-        let currentBalance = parseFloat(localStorage.getItem('user_balance')) || 150.00;
-        let taskProgress = JSON.parse(localStorage.getItem('task_progress')) || { t1: 0, t2: 0 };
-
-        function updateUI() {
-            document.querySelectorAll('.val-balance').forEach(el => {
-                el.innerText = currentBalance.toFixed(2);
-            });
-            document.getElementById('task1-count').innerText = taskProgress.t1;
-            document.getElementById('task2-count').innerText = taskProgress.t2;
-        }
-
-        function switchPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            updateUI();
-        }
-
-        function doAdTask(taskId) {
-            let key = 't' + taskId;
-            if (taskProgress[key] >= 10) {
-                alert("এই টাস্কটি ইতিমধ্যেই সম্পূর্ণ করা হয়েছে!");
-                return;
-            }
-            alert("অ্যাড চালু হচ্ছে... ১৫ সেকেন্ড অপেক্ষা করুন।");
-            setTimeout(() => {
-                taskProgress[key] += 1;
-                currentBalance += 5.00;
-                
-                totalAdsWatched += 1;
-                totalTasksDone += 1;
-                localStorage.setItem('stat_ads', totalAdsWatched);
-                localStorage.setItem('stat_tasks', totalTasksDone);
-
-                localStorage.setItem('user_balance', currentBalance);
-                localStorage.setItem('task_progress', JSON.stringify(taskProgress));
-                updateUI();
-                alert("শুভেচ্ছা! ৫ টাকা আপনার ব্যালেন্সে যোগ করা হয়েছে।");
-            }, 1000);
-        }
-
-        function copyReferLink() {
-            let copyText = document.getElementById("my-refer-link");
-            copyText.select();
-            navigator.clipboard.writeText(copyText.value);
-            alert("আপনার নিজস্ব রেফারেল লিংক কপি হয়েছে!");
-        }
-
-        function downloadApp() {
-            alert("অ্যাপ ডাউনলোড শুরু হচ্ছে...");
-            window.location.href = "#"; // এখানে আপনার এপিকে (APK) ফাইল লিংক বসিয়ে দিতে পারেন
-        }
-
-        function logoutSession() {
-            localStorage.removeItem('site_active_user');
-            location.reload();
-        }
-
-        updateUI();
-    </script>
-</body>
-</html>
+        <p style="padding:15px; font-size:13px; color:#555;">
