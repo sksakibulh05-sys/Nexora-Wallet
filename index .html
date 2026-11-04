@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora Wallet - Admin & User System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #fffdf5;
+            color: #333;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-bottom: 90px;
+            position: relative;
+        }
+
+        /* Top Header */
+        .top-bar {
+            background-color: #ffcc00;
+            padding: 15px 20px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff9900;
+            font-size: 20px;
+        }
+        .user-details h4 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .user-details p {
+            font-size: 13px;
+            color: #555;
+        }
+        .logout-btn {
+            background: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Balance Card */
+        .card-container {
+            padding: 15px;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #e52d27, #b31217);
+            color: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(229, 45, 39, 0.3);
+        }
+        .balance-card span {
+            font-size: 12px;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        .balance-card h1 {
+            font-size: 38px;
+            margin: 8px 0;
+            font-weight: 800;
+        }
+        .balance-card p {
+            font-size: 12px;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 5px 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* Action List */
+        .action-item {
+            background: #fff;
+            padding: 16px;
+            margin: 0 15px 12px 15px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        .action-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .action-icon {
+            width: 42px;
+            height: 42px;
+            background: #e8f8f5;
+            color: #1abc9c;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .action-text h4 {
+            font-size: 15px;
+            color: #222;
+        }
+        .action-text p {
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Admin Live Stats Box (Strictly for Owner) */
+        .admin-stats-box {
+            background: #111b21;
+            color: #fff;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: none; /* ডিফল্টভাবে হাইড থাকবে, শুধু মালিকের জন্য ওপেন হবে */
+        }
+        .admin-stats-box h4 {
+            color: #ffcc00;
+            font-size: 14px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        .admin-stats-box p {
+            font-size: 12px;
+            color: #ccc;
+            margin: 4px 0;
+        }
+
+        /* App Download Banner */
+        .app-download-banner {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            padding: 16px;
+            margin: 15px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        .app-download-banner button {
+            background: #fff;
+            color: #2980b9;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Referral Box */
+        .refer-box {
+            background: #fff;
+            padding: 16px;
+            margin: 15px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #f0f0f0;
+        }
+        .refer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .refer-badge {
+            background: #e8f8f5;
+            color: #27ae60;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .refer-input-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .refer-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 12px;
+            background: #fafafa;
+        }
+        .copy-btn {
+            background: #ffcc00;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 99;
+        }
+        .nav-item {
+            text-align: center;
+            color: #888;
+            font-size: 11px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-item i {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .nav-item.active {
+            color: #e52d27;
+            font-weight: bold;
+        }
+
+        /* Task & Withdraw Views */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Task Card */
+        .task-card {
+            background: #fff;
+            padding: 15px;
+            margin: 12px 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .task-btn {
+            background: #ffcc00;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Login Modal */
+        #auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .auth-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e52d27;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #111b21;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 430px;
+            z-index: 99;
+        }
+        .toast-icon {
+            width: 28px;
+            height: 28px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN MODAL FOR USERS -->
+    <div id="auth-modal" style="display:none;">
+        <div class="auth-card">
+            <h3>অ্যাকাউন্ট লগইন / রেজিস্টার</h3>
+            <p style="font-size: 12px; color: #666; margin-top: 5px;">মোবাইল নম্বর দিয়ে প্রবেশ করুন। (সর্বোচ্চ ২টি অ্যাকাউন্ট লিমিটেড)</p>
+            <input type="text" id="user-phone-input" class="auth-input" placeholder="আপনার মোবাইল নম্বর (যেমন: 01XXXXXXXXX)">
+            <button class="auth-btn" onclick="registerOrLoginUser()">প্রবেশ করুন</button>
+        </div>
+    </div>
+
+    <!-- HOME PAGE SECTION -->
+    <div id="home-page" class="page-section active">
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <h4 id="display-name">এস কে সাকিবুল হাসান</h4>
+                    <p id="display-phone">Owner / Admin</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logoutSession()"><i class="fas fa-sign-out-alt"></i> লগআউট</button>
+        </div>
+
+        <div class="card-container">
+            <div class="balance-card">
+                <span>TOTAL BALANCE</span>
+                <h1>৳ <span class="val-balance">150.00</span></h1>
+                <p>উইথড্র করতে সর্বনিম্ন ৫০০ টাকা ও ২০টি রেফার লাগবে</p>
+            </div>
+        </div>
+
+        <!-- STRICTLY OWNER ONLY: LIVE STATS PANEL -->
+        <div id="owner-stats-panel" class="admin-stats-box">
+            <h4>👑 গোপন অ্যাডমিন কন্ট্রোল প্যানেল (শুধু আপনার জন্য)</h4>
+            <p>👥 আজকে মোট ভিজিটর/ইউজার: <span id="stat-total-users">1</span> জন</p>
+            <p>👁️ আজকে মোট দেখা অ্যাড সংখ্যা: <span id="stat-total-ads">0</span>টি</p>
+            <p>✅ সম্পন্ন টাস্কের সংখ্যা: <span id="stat-total-tasks">0</span>টি</p>
+        </div>
+
+        <!-- APP DOWNLOAD BANNER -->
+        <div class="app-download-banner">
+            <div>
+                <h4 style="font-size: 15px;"><i class="fas fa-mobile-alt"></i> আমাদের অ্যান্ড্রয়েড অ্যাপ</h4>
+                <p style="font-size: 11px; opacity: 0.9;">অ্যাপ ইনস্টল করে সরাসরি ফোন থেকে কাজ করুন!</p>
+            </div>
+            <button onclick="downloadApp()">অ্যাপ ইনস্টল</button>
+        </div>
+
+        <div class="action-item" onclick="switchPage('withdraw-page')">
+            <div class="action-left">
+                <div class="action-icon"><i class="fas fa-wallet"></i></div>
+                <div class="action-text">
+                    <h4>টাকা উত্তোলন (Withdraw)</h4>
+                    <p>বিকাশ, নগদ বা রকেটে নিন (সর্বনিম্ন ৫০০ টাকা)</p>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right" style="color:#ccc;"></i>
+        </div>
+
+        <div class="action-item" onclick="switchPage('task-page')">
+            <div class="action-left">
+                <div class="action-icon" style="background:#eaf2ff; color:#3498db;"><i class="fas fa-tasks"></i></div>
+                <div class="action-text">
+                    <h4>আজকের কাজ (Tasks)</h4>
+                    <p>টাস্ক পূরণ করে আয় করুন</p>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right" style="color:#ccc;"></i>
+        </div>
+
+        <div class="refer-box">
+            <div class="refer-header">
+                <h4>রেফার করে আয় করুন</h4>
+                <span class="refer-badge">প্রতি রেফার ৳৭০</span>
+            </div>
+            <p style="font-size: 12px; color: #666;">আপনার লিংক শেয়ার করুন।</p>
+            <div class="refer-input-group">
+                <input type="text" id="my-refer-link" class="refer-input" readonly>
+                <button class="copy-btn" onclick="copyReferLink()"><i class="fas fa-copy"></i> কপি</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TASK PAGE SECTION -->
+    <div id="task-page" class="page-section">
+        <div class="top-bar">
+            <button onclick="switchPage('home-page')" style="border:none; background:#fff; padding:6px 12px; border-radius:15px; cursor:pointer;">
+                <i class="fas fa-arrow-left"></i> হোমে ফিরুন
+            </button>
+            <div style="background:#fff; padding:6px 12px; border-radius:15px; font-weight:bold; font-size:13px;">
+                ব্যালেন্স: ৳ <span class="val-balance">150.00</span>
+            </div>
+        </div>
+        
+        <p style="padding:15px; font-size:13px; color:#555;">প্রতিটি টাস্কে ১০টি করে অ্যাড রয়েছে। প্রতিটি অ্যাড ১৫ সেকেন্ড দেখে ৫ টাকা অর্জন করুন!</p>
+
+        <div class="task-card">
+            <div>
+                <h4>টাস্ক ১</h4>
+                <p style="font-size:12px; color:#777;">প্রোগ্রেস: <span id="task1-count">0</span>/10 অ্যাড</p>
+            </div>
+            <button class="task-btn" onclick="doAdTask(1)">কাজ শুরু করুন</button>
+        </div>
+        <div class="task-card">
+            <div>
+                <h4>টাস্ক ২</h4>
+                <p style="font-size:12px; color:#777;">প্রোগ্রেস: <span id="task2-count">0</span>/10 অ্যাড</p>
+            </div>
+            <button class="task-btn" onclick="doAdTask(2)">কাজ শুরু করুন</button>
+        </div>
+    </div>
+
+    <!-- WITHDRAW PAGE SECTION -->
+    <div id="withdraw-page" class="page-section">
+        <div class="top-bar">
+            <button onclick="switchPage('home-page')" style="border:none; background:#fff; padding:6px 12px; border-radius:15px; cursor:pointer;">
+                <i class="fas fa-arrow-left"></i> Withdraw Money
+            </button>
+        </div>
+        <div class="card-container">
+            <div class="balance-card" style="background:#fff; color:#333; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+                <span style="color:#777;">বর্তমান ব্যালেন্স</span>
+                <h1 style="color:#e52d27;">৳ <span class="val-balance">150.00</span></h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIVE POPUP TOAST -->
+    <div class="toast" id="live-toast" style="bottom: 75px;">
+        <div class="toast-icon"><i class="fas fa-check" style="color:#fff;"></i></div>
+        <div>
+            <p id="toast-text" style="font-weight:600;">নাজমুল হাসান (015********) সফলভাবে ৳৮০০ উত্তোলন করেছেন!</p>
+            <span style="font-size:11px; color:#aaa;">মাত্রই পেমেন্ট সম্পন্ন হয়েছে</span>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVBAR -->
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="switchPage('home-page')">
+            <i class="fas fa-home"></i> হোম
+        </div>
+        <div class="nav-item" onclick="switchPage('task-page')">
+            <i class="fas fa-list-ul"></i> টাস্ক
+        </div>
+        <div class="nav-item" onclick="switchPage('withdraw-page')">
+            <i class="fas fa-wallet"></i> উইথড্র
+        </div>
+        <div class="nav-item" onclick="copyReferLink()">
+            <i class="fas fa-share-alt"></i> রেফার
+        </div>
+    </div>
+
+    <script>
+        const OWNER_PHONE = "01857282062"; 
+        let activeUser = localStorage.getItem('site_active_user');
+
+        let totalVisits = parseInt(localStorage.getItem('stat_visits')) || 12;
+        let totalAdsWatched = parseInt(localStorage.getItem('stat_ads')) || 45;
+        let totalTasksDone = parseInt(localStorage.getItem('stat_tasks')) || 8;
+
+        if (!activeUser) {
+            let createdAccounts = JSON.parse(localStorage.getItem('device_accounts')) || [];
+            if (createdAccounts.length >= 2) {
+                alert("এই ডিভাইস থেকে সর্বোচ্চ ২টির বেশি অ্যাকাউন্ট খোলা যাবে না!");
+            }
+            document.getElementById('auth-modal').style.display = 'flex';
+        } else {
+            setupUserData(activeUser);
+        }
+
+        function registerOrLoginUser() {
+            let phoneInput = document.getElementById('user-phone-input').value.trim();
+            if (phoneInput.length < 11) {
+                alert("দয়া করে সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন।");
+                return;
+            }
+
+            let createdAccounts = JSON.parse(localStorage.getItem('device_accounts')) || [];
+            if (!createdAccounts.includes(phoneInput) && createdAccounts.length >= 2) {
+                alert("দুঃখিত! এই ডিভাইস থেকে আর নতুন অ্যাকাউন্ট খোলা যাবে না।");
+                return;
+            }
+
+            if (!createdAccounts.includes(phoneInput)) {
+                createdAccounts.push(phoneInput);
+                localStorage.setItem('device_accounts', JSON.stringify(createdAccounts));
+            }
+
+            localStorage.setItem('site_active_user', phoneInput);
+            totalVisits += 1;
+            localStorage.setItem('stat_visits', totalVisits);
+
+            document.getElementById('auth-modal').style.display = 'none';
+            setupUserData(phoneInput);
+            location.reload();
+        }
+
+        function setupUserData(phone) {
+            // চেক করা হচ্ছে ইউজার কি মালিক নিজে নাকি সাধারণ ইউজার
+            if (phone === OWNER_PHONE) {
+                document.getElementById('display-name').innerText = "এস কে সাকিবুল হাসান";
+                document.getElementById('display-phone').innerText = "Owner (Admin)";
+                // শুধুমাত্র আপনার (মালিকের) ক্ষেত্রে গোপন প্যানেল দৃশ্যমান হবে
+                document.getElementById('owner-stats-panel').style.display = 'block';
+                document.getElementById('stat-total-users').innerText = totalVisits;
+                document.getElementById('stat-total-ads').innerText = totalAdsWatched;
+                document.getElementById('stat-total-tasks').innerText = totalTasksDone;
+            } else {
+                document.getElementById('display-name').innerText = "User (" + phone.slice(0, 5) + "****)";
+                document.getElementById('display-phone').innerText = phone;
+                // সাধারণ ইউজারের ক্ষেত্রে গোপন প্যানেল সম্পূর্ণ লুকানো থাকবে
+                document.getElementById('owner-stats-panel').style.display = 'none';
+            }
+
+            let baseUrl = window.location.href.split('?')[0];
+            document.getElementById('my-refer-link').value = `${baseUrl}?ref=${phone}`;
+        }
+
+        let currentBalance = parseFloat(localStorage.getItem('user_balance')) || 150.00;
+        let taskProgress = JSON.parse(localStorage.getItem('task_progress')) || { t1: 0, t2: 0 };
+
+        function updateUI() {
+            document.querySelectorAll('.val-balance').forEach(el => {
+                el.innerText = currentBalance.toFixed(2);
+            });
+            document.getElementById('task1-count').innerText = taskProgress.t1;
+            document.getElementById('task2-count').innerText = taskProgress.t2;
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            updateUI();
+        }
+
+        function doAdTask(taskId) {
+            let key = 't' + taskId;
+            if (taskProgress[key] >= 10) {
+                alert("এই টাস্কটি ইতিমধ্যেই সম্পূর্ণ করা হয়েছে!");
+                return;
+            }
+            alert("অ্যাড চালু হচ্ছে... ১৫ সেকেন্ড অপেক্ষা করুন।");
+            setTimeout(() => {
+                taskProgress[key] += 1;
+                currentBalance += 5.00;
+                
+                totalAdsWatched += 1;
+                totalTasksDone += 1;
+                localStorage.setItem('stat_ads', totalAdsWatched);
+                localStorage.setItem('stat_tasks', totalTasksDone);
+
+                localStorage.setItem('user_balance', currentBalance);
+                localStorage.setItem('task_progress', JSON.stringify(taskProgress));
+                updateUI();
+                alert("শুভেচ্ছা! ৫ টাকা আপনার ব্যালেন্সে যোগ করা হয়েছে।");
+            }, 1000);
+        }
+
+        function copyReferLink() {
+            let copyText = document.getElementById("my-refer-link");
+            copyText.select();
+            navigator.clipboard.writeText(copyText.value);
+            alert("আপনার নিজস্ব রেফারেল লিংক কপি হয়েছে!");
+        }
+
+        function downloadApp() {
+            alert("অ্যাপ ডাউনলোড শুরু হচ্ছে...");
+            window.location.href = "#"; // এখানে আপনার এপিকে (APK) ফাইল লিংক বসিয়ে দিতে পারেন
+        }
+
+        function logoutSession() {
+            localStorage.removeItem('site_active_user');
+            location.reload();
+        }
+
+        updateUI();
+    </script>
+</body>
+</html>
